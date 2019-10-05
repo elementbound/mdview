@@ -1,0 +1,33 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "Missing input file!"
+  return 1
+fi;
+
+URL="http://localhost:${MDSERVE_PORT:-3000}"
+
+is_alive() {
+  curl -s "$URL/ping" > /dev/null
+}
+
+is_alive || {
+  echo 'Launching mdserve...'
+  mdserve > /dev/null &
+
+  sleep 0.5
+  for i in $(seq 8); do
+    if is_alive; then
+      break
+    fi;
+
+    echo "Waiting..."
+  done
+
+  is_alive || {
+    echo "Server failed to start!"
+    return 2
+  }
+}
+
+lynx "$URL/render/$(realpath $1)"

@@ -8,6 +8,10 @@
     "start:dev": "nodemon .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "mdserve": "./bin/mdserve",
+    "mdview": "./bin/mdview"
+  },
   "author": "Tamas Galffy",
   "license": "MIT",
   "dependencies": {
