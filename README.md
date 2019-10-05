@@ -2,6 +2,8 @@
 
 View Markdown files in your terminal!
 
+![mdview](assets/mdview.gif)
+
 ## Requirements ##
 
 * [node.js](https://nodejs.org/en/download/)
