@@ -20,14 +20,24 @@ router.get('/*', async (req, res) => {
   }
 
   const data = await fsp.readFile(file, 'utf-8')
-  let html = transformMarkdown(data)
+  const extension = path.extname(file)
 
-  html = config.renderImages
-    ? await processImages(html, basedir)
-    : html
+  if (config.extensions.includes(extension)) {
+    let html = transformMarkdown(data)
 
-  res.status(200)
-    .send(html)
+    html = config.renderImages
+      ? await processImages(html, basedir)
+      : html
+
+    res.status(200)
+      .send(html)
+  } else {
+    console.log(`Unknown extension ${extension}, passing through`)
+
+    res.status(200)
+      .contentType('text/plain')
+      .send(`${data}`)
+  }
 })
 
 module.exports = router

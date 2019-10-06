@@ -4,11 +4,20 @@ View Markdown files in your terminal!
 
 ![mdview](assets/mdview.gif)
 
+## Features ##
+
+* Open Markdown files in your terminal
+* Follow links between the files
+* Unknown files are presented as-is
+* Render images as ASCII grayscales
+* Configure via environment variables
+
 ## Requirements ##
 
 * [node.js](https://nodejs.org/en/download/)
 * [lynx](https://lynx.browser.org/)
 * [imagemagick](https://imagemagick.org/)
+  * Only needed for image rendering, can be turned off. See [configuration](.env.defaults)
 
 ## Install ##
 

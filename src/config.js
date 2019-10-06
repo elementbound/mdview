@@ -16,11 +16,17 @@ function getBool (name) {
   return process.env[name] === 'true'
 }
 
+function getList (name) {
+  return process.env[name].split(',')
+    .map(item => item.trim())
+}
+
 const config = Object.freeze({
   port: getInt('MDSERVE_PORT'),
   timeout: getNumber('MDSERVE_TIMEOUT'),
   timeoutInterval: getNumber('MDSERVE_TIMEOUT_INTERVAL'),
-  renderImages: getBool('MDSERVE_RENDER_IMAGES')
+  renderImages: getBool('MDSERVE_RENDER_IMAGES'),
+  extensions: getList('MDSERVE_EXTENSIONS')
 })
 
 console.log('Loaded config', JSON.stringify(config, undefined, 4))
