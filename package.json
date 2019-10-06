@@ -1,7 +1,20 @@
 {
-  "name": "mdserve",
+  "name": "@elementbound/mdview",
   "version": "1.0.0",
-  "description": "",
+  "description": "View markdown files from your terminal!",
+  "keywords": [
+    "markdown",
+    "md",
+    "cli",
+    "terminal",
+    "viewer",
+    "browser"
+  ],
+  "homepage": "https://github.com/elementbound/mdview",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elementbound/mdview.git"
+  },
   "main": "src/app.js",
   "scripts": {
     "start": "node .",
