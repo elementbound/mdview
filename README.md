@@ -32,6 +32,16 @@ Open any markdown file with `mdview`:
 mdview README.md
 ```
 
+## Configuration ##
+
+The server can be configured via environment variables, of which there's only one at the moment:
+
+* `MDSERVE_PORT` - Listen on this port
+  * If you override this, it is recommended to do so from your `.profile` or similar.
+  * If you only override it for running `mdserve`, running `mdview` will look for the service on the wrong port and start it again.
+
+> NOTE: The server only accepts requests from the local machine.
+
 ## Documentation ##
 
 This package provides two components - `mdview` and `mdserve`.

@@ -3,7 +3,7 @@ const path = require('path')
 const express = require('express')
 const app = express()
 
-const PORT = 3000
+const PORT = process.env.MDSERVE_PORT || 3000
 
 function setupRouters () {
   const routesDir = path.resolve(__dirname, 'routes')
