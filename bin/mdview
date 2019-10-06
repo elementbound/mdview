@@ -1,33 +1,79 @@
-#!/bin/sh
+#!/usr/bin/env node
 
-if [ -z "$1" ]; then
-  echo "Missing input file!"
-  return 1
-fi;
+const process = require('process')
+const childProcess = require('child_process')
+const path = require('path')
+const axios = require('axios')
 
-URL="http://localhost:${MDSERVE_PORT:-3000}"
-
-is_alive() {
-  curl -s "$URL/ping" > /dev/null
-}
-
-is_alive || {
-  echo 'Launching mdserve...'
-  mdserve > /dev/null &
-
-  sleep 0.5
-  for i in $(seq 8); do
-    if is_alive; then
-      break
-    fi;
-
-    echo "Waiting..."
-  done
-
-  is_alive || {
-    echo "Server failed to start!"
-    return 2
+function validateArgs () {
+  if (process.argv.length < 3) {
+    console.log(`Usage: ${process.argv[1]} file`)
+    process.exit(1)
   }
 }
 
-lynx "$URL/render/$(realpath $1)"
+function getServerUrl () {
+  const config = require('../src/config')
+  return `http://127.0.0.1:${config.port}`
+}
+
+async function isAlive () {
+  console.log('Pinging server')
+
+  try {
+    const serverUrl = getServerUrl()
+    const response = await axios.get(`${serverUrl}/ping`)
+
+    return response.data === 'pong'
+  } catch (e) {
+    return false
+  }
+}
+
+function wait (ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
+}
+
+async function startServer () {
+  if (await isAlive()) {
+    return true
+  }
+
+  console.log('Launching mdserve...')
+  const serverProcess = childProcess.spawn('mdserve', { detached: true })
+  console.log('Server PID:', serverProcess.pid)
+
+  for (let i = 0; i < 10; i++) {
+    await wait(1000)
+
+    if (await isAlive()) {
+      break
+    } else {
+      console.log('Waiting...')
+    }
+  }
+
+  return isAlive()
+}
+
+async function mdview () {
+  validateArgs()
+  const serverUrl = getServerUrl()
+  const file = path.resolve(process.argv[2])
+
+  if (await startServer()) {
+    console.log('mdserve running, launching browser')
+    const lynx = childProcess.spawn(`lynx ${serverUrl}/render/${file}`, { shell: true, stdio: 'inherit' })
+
+    lynx.on('exit', (code, signal) => {
+      process.exit(code)
+    })
+  } else {
+    console.log('Failed to start mdserve!')
+    process.exit(2)
+  }
+}
+
+mdview()

@@ -3,6 +3,7 @@ const fsp = fs.promises
 const path = require('path')
 const express = require('express')
 
+const config = require('../config')
 const transformMarkdown = require('../transforms/markdown')
 const processImages = require('../postprocess/image')
 
@@ -20,7 +21,10 @@ router.get('/*', async (req, res) => {
 
   const data = await fsp.readFile(file, 'utf-8')
   let html = transformMarkdown(data)
-  html = await processImages(html, basedir)
+
+  html = config.renderImages
+    ? await processImages(html, basedir)
+    : html
 
   res.status(200)
     .send(html)

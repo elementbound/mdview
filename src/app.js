@@ -3,7 +3,9 @@ const path = require('path')
 const express = require('express')
 const app = express()
 
-const PORT = process.env.MDSERVE_PORT || 3000
+const config = require('./config')
+
+const PORT = config.port
 
 function listModules (directory) {
   return fs.readdirSync(directory)

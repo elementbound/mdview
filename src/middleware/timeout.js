@@ -1,5 +1,7 @@
-const TIMEOUT = 60 * 60 * 1000
-const CHECK_INTERVAL = 60 * 60 * 1000
+const config = require('../config')
+
+const TIMEOUT = config.timeout
+const CHECK_INTERVAL = config.timeoutInterval
 
 let lastRequest = new Date()
 
