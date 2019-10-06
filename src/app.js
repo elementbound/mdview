@@ -28,7 +28,7 @@ function main () {
   setupRouters()
 
   console.log(`Listening on port ${PORT}`)
-  app.listen(PORT)
+  app.listen(PORT, '127.0.0.1')
 }
 
 main()
