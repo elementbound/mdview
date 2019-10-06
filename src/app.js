@@ -5,26 +5,35 @@ const app = express()
 
 const PORT = process.env.MDSERVE_PORT || 3000
 
+function listModules (directory) {
+  return fs.readdirSync(directory)
+    .filter(file => file.endsWith('.js'))
+    .map(file => ({
+      name: path.basename(file, '.js'),
+      file: path.resolve(directory, file)
+    }))
+}
+
+function setupMiddleware () {
+  const middlewareDir = path.resolve(__dirname, 'middleware')
+
+  listModules(middlewareDir).forEach(({ name, file }) => {
+    console.log(`Loading middleware named ${name} from file: ${file}`)
+    app.use(require(file))
+  })
+}
+
 function setupRouters () {
   const routesDir = path.resolve(__dirname, 'routes')
 
-  fs.readdirSync(routesDir)
-    .filter(file => file.endsWith('.js'))
-    .map(file => {
-      const name = path.basename(file, '.js')
-      const filePath = path.resolve(routesDir, file)
-
-      console.log(`Loading route named ${name} from file: ${filePath}`)
-
-      return [name, require(filePath)]
-    })
-    .forEach(([name, mod]) => {
-      console.log(`Registering route: ${name}`)
-      app.use(`/${name}`, mod)
-    })
+  listModules(routesDir).forEach(({ name, file }) => {
+    console.log(`Loading route /${name} from file: ${file}`)
+    app.use(`/${name}`, require(file))
+  })
 }
 
 function main () {
+  setupMiddleware()
   setupRouters()
 
   console.log(`Listening on port ${PORT}`)
