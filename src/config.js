@@ -1,8 +1,10 @@
 const path = require('path')
 
 require('dotenv-defaults').config({
-  default: path.resolve(__dirname, '../.env.defaults')
+  path: path.resolve(__dirname, '../.env.defaults')
 })
+
+console.log('Environment:', JSON.stringify(process.env, undefined, 4))
 
 function getInt (name) {
   return ~~process.env[name]
