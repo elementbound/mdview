@@ -32,16 +32,6 @@ Open any markdown file with `mdview`:
 mdview README.md
 ```
 
-## Configuration ##
-
-The server can be configured via environment variables, of which there's only one at the moment:
-
-* `MDSERVE_PORT` - Listen on this port
-  * If you override this, it is recommended to do so from your `.profile` or similar.
-  * If you only override it for running `mdserve`, running `mdview` will look for the service on the wrong port and start it again.
-
-> NOTE: The server only accepts requests from the local machine.
-
 ## Documentation ##
 
 This package provides two components - `mdview` and `mdserve`.
@@ -49,3 +39,19 @@ This package provides two components - `mdview` and `mdserve`.
 `mdserve` is a HTTP server that renders markdown documents as HTML. It includes image conversion logic as well, so images show up in some way. 
 
 `mdview` launches `mdserve` when needed, and opens the given document in `lynx`.
+
+### Endpoints ###
+
+| URL              | Description                          |
+| ---------------- | ------------------------------------ |
+| `/render/{path}` | Render the file under `path` as HTML |
+| `/ping`          | Returns `pong` if the server is up   |
+| `/pid`           | Returns the server's process ID      |
+
+> NOTE: The server only accepts requests from the local machine.
+
+## Configuration ##
+
+The server can be configured via environment variables. Which also means that you can plop your variables in your `.bashrc` or similar.
+
+For reference, see [`.env.defaults`](.env.defaults)
