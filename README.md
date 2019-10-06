@@ -30,7 +30,7 @@ sudo apt install lynx imagemagick
 Install `mdview` from Github, using `npm`:
 
 ```sh
-npm install -g https://github.com/elementbound/mdview.git
+npm install -g @elementbound/mdview
 ```
 
 ## Usage ##
