@@ -15,7 +15,11 @@ View Markdown files in your terminal!
 ## Requirements ##
 
 * [node.js](https://nodejs.org/en/download/)
-* [lynx](https://lynx.browser.org/)
+* A text-mode browser, such as:
+  * [lynx](https://lynx.browser.org/)
+  * [w3m](http://w3m.sourceforge.net/)
+  * [links2](http://manpages.ubuntu.com/manpages/disco/en/man1/links2.1.html)
+  * [elinks](http://elinks.or.cz/)
 * [imagemagick](https://imagemagick.org/)
   * Only needed for image rendering, can be turned off. See [configuration](.env.defaults)
 
@@ -27,7 +31,7 @@ Install `lynx` and `imagemagick` with your package manager of choice. For exampl
 sudo apt install lynx imagemagick
 ```
 
-Install `mdview` from Github, using `npm`:
+Install `mdview` using `npm`:
 
 ```sh
 npm install -g @elementbound/mdview

@@ -4,6 +4,7 @@ const process = require('process')
 const childProcess = require('child_process')
 const path = require('path')
 const axios = require('axios')
+const config = require('../src/config')
 
 function validateArgs () {
   if (process.argv.length < 3) {
@@ -13,7 +14,6 @@ function validateArgs () {
 }
 
 function getServerUrl () {
-  const config = require('../src/config')
   return `http://127.0.0.1:${config.port}`
 }
 
@@ -64,10 +64,11 @@ async function mdview () {
   const file = path.resolve(process.argv[2])
 
   if (await startServer()) {
-    console.log('mdserve running, launching browser')
-    const lynx = childProcess.spawn(`lynx ${serverUrl}/render/${file}`, { shell: true, stdio: 'inherit' })
+    const command = `${config.browser} ${serverUrl}/render/${file}`
+    console.log('mdserve running, launching browser:', command)
+    const browser = childProcess.spawn(command, { shell: true, stdio: 'inherit' })
 
-    lynx.on('exit', (code, signal) => {
+    browser.on('exit', (code, signal) => {
       process.exit(code)
     })
   } else {
