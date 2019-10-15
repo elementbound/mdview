@@ -1,17 +1,13 @@
 #!/usr/bin/env node
 
+require('../src/cmd/silent')
+require('../src/cmd/validargs')
+
 const process = require('process')
 const childProcess = require('child_process')
 const path = require('path')
 const axios = require('axios')
 const config = require('../src/config')
-
-function validateArgs () {
-  if (process.argv.length < 3) {
-    console.log(`Usage: ${process.argv[1]} file`)
-    process.exit(1)
-  }
-}
 
 function getServerUrl () {
   return `http://127.0.0.1:${config.port}`
@@ -59,7 +55,6 @@ async function startServer () {
 }
 
 async function mdview () {
-  validateArgs()
   const serverUrl = getServerUrl()
   const file = path.resolve(process.argv[2])
 

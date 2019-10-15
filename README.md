@@ -51,7 +51,13 @@ This package provides two components - `mdview` and `mdserve`.
 
 `mdserve` is a HTTP server that renders markdown documents as HTML. It includes image conversion logic as well, so images show up in some way. 
 
-`mdview` launches `mdserve` when needed, and opens the given document in `lynx`.
+`mdview` launches `mdserve` when needed, and opens the given document in the configured browser ( default is `lynx` ).
+
+### Command line flags ###
+
+| Flag | Description                     |
+| ---- | ------------------------------- |
+| `-q` | Don't output anything to STDOUT |
 
 ### Endpoints ###
 
@@ -63,8 +69,32 @@ This package provides two components - `mdview` and `mdserve`.
 
 > NOTE: The server only accepts requests from the local machine.
 
+### Tips and tricks ###
+
+#### Periodically refreshing file ###
+
+You can combine `mdview`'s *quiet* flag, your browser's *dump* flag, and the `watch` command:
+
+```sh
+watch -n 0.5 'MDVIEW_BROWSER="lynx -dump" mdview -q /path/to/file'
+```
+
+If you have a version of `watch` that supports it, you can use `elinks` for colored output:
+
+```sh
+watch -n 0.5 --color 'MDVIEW_BROWSER="elinks -dump -dump-color-mode 1" mdview -q /path/to/file'
+```
+
+Here it is in action:
+
+![Periodical refreshing](assets/mdview-refresh.gif)
+
 ## Configuration ##
 
 The server can be configured via environment variables. Which also means that you can plop your variables in your `.bashrc` or similar.
 
 For reference, see [`.env.defaults`](.env.defaults)
+
+## Issues ##
+
+If you have any issues or feedback, please feel free to let me know by opening an [issue on Github](https://github.com/elementbound/mdview/issues).
