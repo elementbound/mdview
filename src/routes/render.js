@@ -17,6 +17,7 @@ router.get('/*', async (req, res) => {
   if (!fs.existsSync(file)) {
     res.status(404)
       .send(`File doesn't exist: ${file}`)
+    return
   }
 
   const data = await fsp.readFile(file, 'utf-8')
